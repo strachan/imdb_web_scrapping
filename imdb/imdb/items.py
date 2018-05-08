@@ -11,3 +11,13 @@ from scrapy import Item, Field
 class ImdbItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    title = Field()
+    imdb_score = Field()
+    metascore = Field()
+    genres = Field()
+    release_data = Field()
+    budget = Field()
+    opening_weekend_usa = Field()
+    usa_gross = Field()
+    worldwide_gross = Field()
+    production_companies = Field()
