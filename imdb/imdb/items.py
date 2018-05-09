@@ -18,7 +18,7 @@ class ImdbItem(Item):
     country = Field()
     release_date = Field()
     budget = Field()
-    opening_weekend_usa = Field()
+    opening_usa = Field()
     usa_gross = Field()
     worldwide_gross = Field()
     production_companies = Field()
