@@ -1,7 +1,6 @@
 from scrapy import Request, Spider
 from imdb.items import ImdbItem
 from imdb.parse_imdb import Parse_Imdb
-import re
 
 
 class ImdbSpider(Spider):
@@ -12,21 +11,14 @@ class ImdbSpider(Spider):
 
 	def parse(self, response):
 
-		for year in range(2015, 2016):
+		final_page = 20
+		base_url = 'https://www.imdb.com/search/title?year={year}&title_type=feature&view=simple&page={page}&ref_=adv_nxt'
+		list_urls = []
+		for year in range(2010, 2018):
+			list_urls += [base_url.format(year=year, page=x) for x in range(1, final_page + 1)]
 
-			# get number of pages and total pages for that year
-			regex = re.compile('of (\d*,?\d+)')
-			text = response.xpath('//div[@class="desc"]/text()').extract()[2]
-			total_num = int(regex.search(text).group(1).replace(',', ''))
-			num_per_page = int(response.xpath('//span[@class="lister-current-last-item"]/text()').extract_first())
-			total_pages = total_num // num_per_page + 1
-			total_pages = 3
-
-			base_url = 'https://www.imdb.com/search/title?year={year}&title_type=feature&view=simple&page={page}&ref_=adv_nxt'
-			list_urls = [base_url.format(year=year, page=x) for x in range(1, total_pages + 1)]
-
-			for url in list_urls[:5]:
-				yield Request(url, callback=self.parse_result_page)
+		for url in list_urls:
+			yield Request(url, callback=self.parse_result_page)
 
 	def parse_result_page(self, response):
 

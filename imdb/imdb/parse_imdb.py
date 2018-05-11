@@ -26,7 +26,7 @@ class Parse_Imdb(object):
 
 	def get_country(self):
 		country = self.response.xpath('//div[@id="titleDetails"]/div[./h4[@class="inline"][contains(text(),"Country:")]]/a/text()').extract_first()
-		return country.strip()
+		return country.strip() if country is not None else None
 
 	def get_release_date(self):
 		three_letter_months = list(calendar.month_abbr)
@@ -36,7 +36,7 @@ class Parse_Imdb(object):
 		day_raw, month_raw, year = re.search('(\d{,2})\s?([a-zA-Z]{3,}) (\d{4})', release_date).groups()
 
 		month = three_letter_months.index(month_raw) if month_raw in three_letter_months else full_name_months.index(month_raw)
-		day = int(day_raw) if day_raw is not None else 1
+		day = int(day_raw) if (day_raw is not None and day_raw is not '') else 1
 		return datetime.date(int(year), month, day)
 
 	def get_budget(self):
