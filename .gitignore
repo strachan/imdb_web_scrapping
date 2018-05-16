@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# file with plotly API Key
+apikey.txt
+
 # files scraped
 imdb/imdb_*.json
 
